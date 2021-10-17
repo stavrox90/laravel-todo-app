@@ -1,4 +1,4 @@
 [[redirects]]
   from = "/*"
-  to = "http://backend.example.com/:splat"
+  to = "https://inrafilus-mytodo.netlify.app/:splat"
   status = 200
