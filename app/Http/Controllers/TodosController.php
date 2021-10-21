@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class TodosController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Display a listing of the resource.
@@ -20,8 +20,14 @@ class TodosController extends Controller
      */
     public function index()
     {
-        $todos = Todo::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
-        return view('home', compact('todos'));
+        // $todos = Todo::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        $todos = Todo::all();
+        return response()->json([
+            'data' => $todos,
+            'success' => false,
+            'status' => 200,
+            'message' => 'Success'
+        ]);
     }
 
     /**
@@ -31,7 +37,7 @@ class TodosController extends Controller
      */
     public function create()
     {
-        return view('add_todo');
+        //
     }
 
     /**
@@ -60,7 +66,12 @@ class TodosController extends Controller
         $todo->user_id = Auth::user()->id;
         $todo->save();
 
-        return back()->with('success', 'Item created successfully!');
+        return response()->json([
+            'data' => [],
+            'success' => true,
+            'status' => 200,
+            'message' => 'Success'
+        ]);
     }
 
     /**
@@ -72,7 +83,12 @@ class TodosController extends Controller
     public function show($id)
     {
         $todo = Todo::where('id', $id)->where('user_id', Auth::user()->id)->firstOrFail();
-        return view('delete_todo', compact('todo'));
+        return response()->json([
+            'data' => $todo,
+            'success' => true,
+            'status' => 200,
+            'message' => 'Success'
+        ]);
     }
 
     /**
@@ -83,8 +99,13 @@ class TodosController extends Controller
      */
     public function edit($id)
     {
-        $todo = Todo::where('id', $id)->where('user_id', Auth::user()->id)->firstOrFail();
-        return view('edit_todo', compact('todo'));
+        // $todo = Todo::where('id', $id)->where('user_id', Auth::user()->id)->firstOrFail();
+        // return response()->json([
+        //     'data' => $todo,
+        //     'success' => true,
+        //     'status' => 200,
+        //     'message' => 'Success'
+        // ]);
     }
 
     /**
@@ -114,7 +135,12 @@ class TodosController extends Controller
 
         $todo->save();
 
-        return back()->with('success', 'Item updated successfully!');
+        return response()->json([
+            // 'data' => $todo,
+            'success' => true,
+            'status' => 200,
+            'message' => 'Item has been updated!'
+        ]);
     }
 
     /**
@@ -127,6 +153,12 @@ class TodosController extends Controller
     {
         $todo = Todo::where('id', $id)->where('user_id', Auth::user()->id)->firstOrFail();
         $todo->delete();
-        return redirect()->route('todo.index')->with('success', 'Item deleted successfully!');
+        // return redirect()->route('todo.index')->with('success', 'Item deleted successfully!');
+        return response()->json([
+            // 'data' => $todo,
+            'success' => true,
+            'status' => 200,
+            'message' => 'Item deleted successfully!'
+        ]);
     }
 }
